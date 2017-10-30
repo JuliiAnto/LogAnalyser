@@ -28,6 +28,10 @@ public final class AnalyserConstants {
         public String getDateFormat() {
             return dateFromat;
         }
+
+        public String getUnitName() {
+            return unitName;
+        }
     }
 
     public static boolean isEmpty(String str){

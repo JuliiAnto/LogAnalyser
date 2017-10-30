@@ -1,5 +1,7 @@
 package Controller;
 
+import Config.GroupingConfig;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MapController {
@@ -24,8 +26,12 @@ public class MapController {
     }
 
     public void printMap() {
+        String header = ((GroupingConfig.getInstance().hasUserName())? "name \t" : "") +
+                ((GroupingConfig.getInstance().getTimeUnit()!=null )? GroupingConfig.getInstance().getTimeUnit().getUnitName()+"\t" : "") +
+                "count of records";
+        System.out.println(header);
         for (String key : groupMap.keySet()) {
-            System.out.println(key + " " + groupMap.get(key));
+            System.out.println(key + "\t" + groupMap.get(key));
         }
     }
 }

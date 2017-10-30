@@ -23,7 +23,7 @@ public class GroupingConfig {
     }
 
     public String getKeyByRecod(Record rec){
-        String key = (userName)? rec.getUsername() : EMPTY_STRING;
+        String key = (userName)? rec.getUsername()+"\t" : EMPTY_STRING;
         if (!isNull(timeUnit)) {
             DateFormat format = new SimpleDateFormat(timeUnit.getDateFormat(), Locale.ENGLISH);
             key = key.concat(format.format(rec.getDateTime()));
