@@ -18,6 +18,7 @@ public class InputControllerTest {
 
     @Before
     public void setUpFilterP() {
+        //somefix
         goodData = "pathI \"C://Users//DDD//IdeaProjects//LogAnalysator//logs\"" +
                 " -usr Ann -pat Error(.)*" +
                 "  -grtime year " +
