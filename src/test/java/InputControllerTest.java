@@ -13,8 +13,8 @@ import static org.junit.Assert.assertNull;
 
 public class InputControllerTest {
 
-    String goodData, badData1;
-    File resourcesDirectory;
+    private String goodData, badData1;
+    private File resourcesDirectory;
 
     public InputControllerTest() {
     }

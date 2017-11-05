@@ -25,7 +25,7 @@ public class InputController {
         return controller;
     }
 
-    public void validateInput() throws LogException {
+    private void validateInput() throws LogException {
 
         if (AnalyserConstants.isNull(FilterConfig.getInstance().getUserName()) &
                 AnalyserConstants.isNull(FilterConfig.getInstance().getPattern()) &
@@ -64,8 +64,8 @@ public class InputController {
         DateFormat format = new SimpleDateFormat(AnalyserConstants.DATE_FORMAT, Locale.ENGLISH);
         FilterConfig filterC = FilterConfig.getInstance();
         GroupingConfig groupingC = GroupingConfig.getInstance();
-        for (int i = 0; i < allParams.length; i++) {
-            String[] data = allParams[i].split("(\\s)+");
+        for (String param : allParams) {
+            String[] data = param.split("(\\s)+");
             switch (Parameter.getParameterFromStr(data[0])) {
                 case F_USERNAME:
                     filterC.setUserName(data[1]);
