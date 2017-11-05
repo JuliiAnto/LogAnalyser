@@ -6,30 +6,40 @@ import Entities.LogException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class InputControllerTest {
 
-    String goodData, badData1;
+    private String goodData, badData1;
+    private File resourcesDirectory;
 
     public InputControllerTest() {
     }
 
     @Before
     public void setUpFilterP() {
-        goodData = "pathI \"C://Users//DDD//IdeaProjects//LogAnalysator//logs\"" +
+        resourcesDirectory = new File("src/test/resources");
+        goodData = "pathI " +
+                resourcesDirectory.getAbsolutePath().concat(File.separator + "validTestData") +
                 " -usr Ann -pat Error(.)*" +
                 "  -grtime year " +
-                "-thrN 5 -pathO \"C://Users//DDD//IdeaProjects//LogAnalysator//outbound.log\"";
-        badData1 = "pathI \"C://Users//DDD//Idea&Projects//LogAnalysator//logs\"" +
+                "-thrN 5 " +
+                "-pathO " + resourcesDirectory.getAbsolutePath().concat(File.separator + "testOutput")
+                .concat(File.separator + "test1.log");
+        badData1 = "pathI " + resourcesDirectory.getAbsolutePath().concat(File.separator + "&invalidFileName") +
                 " -usr Ann -pat Error(.)*" +
                 "  -grtime year " +
-                "-thrN 5 -pathO \"C://Users//DDD//IdeaProjects//LogAnalysator//outbound.log\"";
+                "-thrN 5 " +
+                "-pathO " + resourcesDirectory.getAbsolutePath().concat(File.separator + "testOutput")
+                .concat(File.separator + "test1.log");
     }
 
     @Test
     public void testHandleInput() throws LogException {
+        System.out.println(goodData);
         assertEquals(false, InputController.getInstance().handleInput(goodData));
         assertEquals("Ann", FilterConfig.getInstance().getUserName());
         assertEquals("Error(.)*", FilterConfig.getInstance().getPattern());
@@ -37,8 +47,9 @@ public class InputControllerTest {
         assertNull(FilterConfig.getInstance().getTimeEnd());
         assertEquals(false, GroupingConfig.getInstance().hasUserName());
         assertEquals(5, ToolConfig.getInstance().getThreadsNumber());
-        assertEquals("C://Users//DDD//IdeaProjects//LogAnalysator//logs", ToolConfig.getInstance().getLogsPath());
-        assertEquals("C://Users//DDD//IdeaProjects//LogAnalysator//outbound.log", ToolConfig.getInstance().getOutputPath());
+        assertEquals(resourcesDirectory.getAbsolutePath().concat(File.separator + "validTestData"), ToolConfig.getInstance().getLogsPath());
+        assertEquals(resourcesDirectory.getAbsolutePath().concat(File.separator + "testOutput")
+                .concat(File.separator + "test1.log"), ToolConfig.getInstance().getOutputPath());
     }
 
     @Test

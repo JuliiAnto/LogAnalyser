@@ -25,7 +25,7 @@ public class InputController {
         return controller;
     }
 
-    public void validateInput() throws LogException {
+    private void validateInput() throws LogException {
 
         if (AnalyserConstants.isNull(FilterConfig.getInstance().getUserName()) &
                 AnalyserConstants.isNull(FilterConfig.getInstance().getPattern()) &
@@ -47,11 +47,13 @@ public class InputController {
             throw new LogException("Directory for analyzed logs should be specified");
 
         File f = new File(ToolConfig.getInstance().getOutputPath());
-        if (!f.exists())
+        String outPath = ToolConfig.getInstance().getOutputPath();
+        String path = outPath.substring(0, outPath.lastIndexOf(File.separator));
+        if (!f.exists() & !new File(path).isDirectory())
             throw new LogException("Wrong path to Output file");
 
         f = new File(ToolConfig.getInstance().getLogsPath());
-        if (!f.exists())
+        if (!f.isDirectory())
             throw new LogException("Wrong path to Input file");
     }
 
@@ -62,8 +64,8 @@ public class InputController {
         DateFormat format = new SimpleDateFormat(AnalyserConstants.DATE_FORMAT, Locale.ENGLISH);
         FilterConfig filterC = FilterConfig.getInstance();
         GroupingConfig groupingC = GroupingConfig.getInstance();
-        for (int i = 0; i < allParams.length; i++) {
-            String[] data = allParams[i].split("(\\s)+");
+        for (String param : allParams) {
+            String[] data = param.split("(\\s)+");
             switch (Parameter.getParameterFromStr(data[0])) {
                 case F_USERNAME:
                     filterC.setUserName(data[1]);
